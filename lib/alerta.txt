@@ -1,0 +1,30 @@
+// exemplo JS/EdgeFunction usando supabase-js
+import { createClient } from '@supabase/supabase-js';
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY); // service role
+await supabase.from('notifications').insert([{ title: 'Nova Alerta', body: 'Conteúdo', data: { type: 'alert' } }]);
+
+
+
+
+-- arquivo para rodar no SQL editor do Supabase
+CREATE TABLE public.notifications (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id uuid, -- opcional: null para broadcast
+  title text NOT NULL,
+  body text,
+  data jsonb DEFAULT '{}'::jsonb,
+  created_at timestamptz DEFAULT now()
+);
+
+
+NAVEGAÇÃO FIREBASE
+
+1 npm install -g firebase-tools
+
+2 firebase login
+
+3 dart pub global activate flutterfire_cli
+
+4 flutterfire configure
+
+5 flutter pub add cloud_firestore

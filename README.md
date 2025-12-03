@@ -1,1 +1,3 @@
-# AlertaDay-Flutter
+# alertaday
+
+A new Flutter project.
