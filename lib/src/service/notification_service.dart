@@ -43,13 +43,13 @@ class NotificationService {
 
     // ==== ONE SIGNAL ====
 
-    final appId = dotenv.env['ONESIGNAL_APP_ID'];
-    if (appId == null) {
-      throw Exception("ONESIGNAL_APP_ID não encontrado no .env");
-    }
+    //final appId = dotenv.env['ONESIGNAL_APP_ID'];
+    //if (appId == null) {
+      //throw Exception("ONESIGNAL_APP_ID não encontrado no .env");
+    //}
 
     OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-    OneSignal.initialize(appId);
+   // OneSignal.initialize(appId);
 
     // Solicita permissão para notificações (iOS + Android 13+)
     OneSignal.Notifications.requestPermission(true);

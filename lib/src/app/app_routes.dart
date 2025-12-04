@@ -1,19 +1,22 @@
+import 'package:alertaday/src/view/about_view.dart';
 import 'package:flutter/material.dart';
 import 'package:alertaday/src/view/home_view.dart';
 import 'package:alertaday/src/view/settings_view.dart';
-import 'package:alertaday/src/view/about_view.dart';
+import 'package:alertaday/src/view/avaliacao_view.dart';
 
 class AppRoutes {
   AppRoutes._();
 
   static const String home = '/';
   static const String settings = '/settings';
+  static const String avaliacao = '/avaliacao';
   static const String about = '/about';
 
   // Mapa de rotas (útil para `routes:` do MaterialApp)
   static Map<String, WidgetBuilder> get routes => {
         home: (_) => const HomeView(),
         settings: (_) => const SettingsView(),
+        avaliacao: (_) => const AvaliacaoView(),
         about: (_) => const AboutView(),
       };
 

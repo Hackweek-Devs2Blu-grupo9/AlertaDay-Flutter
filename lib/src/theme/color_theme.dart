@@ -4,7 +4,7 @@ class AppColors {
   AppColors._();
 
   static const Color primary = Color.fromARGB(255, 230, 162, 18);
-  static const Color primaryVariant = Color.fromARGB(255, 238, 139, 26);
+  static const Color primaryVariant = Color.fromARGB(255, 247, 201, 149);
   static const Color secondary = Color.fromARGB(255, 0, 0, 0);
   static const Color secondaryVariant = Color(0xFFFFA000);
   static const Color background = Color(0xFFF5F5F5);
@@ -53,7 +53,7 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: const Color.fromARGB(255, 247, 216, 150),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),

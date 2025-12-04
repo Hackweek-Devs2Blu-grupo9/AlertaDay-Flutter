@@ -7,13 +7,13 @@ import 'src/service/realtime_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
+  //await dotenv.load(fileName: ".env");
 
   // Inicializa notificações locais + push OneSignal
-  await NotificationService().init();
+  //await NotificationService().init();
 
   // Serviço de realtime (mock)
-  RealtimeService().startListening();
+  //RealtimeService().startListening();
 
   runApp(const AlertaDay());
 }

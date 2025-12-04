@@ -35,11 +35,12 @@ class AppMenu extends StatelessWidget {
           children: [
             const UserAccountsDrawerHeader(
               accountName: Text('AlertaDay'),
-              accountEmail: Text('usuário@alertaday.app'),
+              accountEmail: Text('adm@alertaday.app'),
               currentAccountPicture: CircleAvatar(child: Icon(Icons.notifications)),
             ),
             _buildListTile(context, Icons.home, 'Home', AppRoutes.home, replace: true),
             _buildListTile(context, Icons.settings, 'Configurações', AppRoutes.settings),
+            _buildListTile(context, Icons.event_available_sharp, 'Avaliação', AppRoutes.avaliacao),
             _buildListTile(context, Icons.info, 'Sobre', AppRoutes.about),
             const Divider(),
             ListTile(
