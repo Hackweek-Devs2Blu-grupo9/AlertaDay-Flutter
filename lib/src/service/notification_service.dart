@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:alertaday/src/model/notification_model.dart';
+import 'package:alertaday/src/model/notification_new_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -31,6 +32,38 @@ class NotificationService {
 
     throw Exception("Erro ao buscar alerts: ${response.statusCode}");
   }
+
+  // POST /news
+  Future<List<NotificationNewModel>> postAlerts() async {
+  final url = Uri.parse(baseUrl + '/api/news');
+
+  final headers = {
+    'Content-Type': 'application/json',
+  };
+
+  // 1. Usar http.post
+  final response = await http.post(
+    url,
+    headers: headers,
+    body: jsonEncode({}), // Enviando um corpo JSON vazio, se a API exigir
+  );
+
+  if (response.statusCode == 200) {
+    final dynamic decodedBody = jsonDecode(response.body);
+
+    if (decodedBody is List) {
+      final List<dynamic> jsonList = decodedBody;
+      
+      // 2. A CORREÇÃO PRINCIPAL: Usar NotificationNewModel e garantir o tipo Map
+      return jsonList.map((j) => NotificationNewModel.fromJson(j as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception("Resposta da API (status 200) não é uma lista. Tipo recebido: ${decodedBody.runtimeType}");
+    }
+  }
+
+  // Trata erros de status HTTP
+  throw Exception("Erro ao buscar alerts (POST): ${response.statusCode}");
+}
 
   Future<void> init() async {
     // ==== LOCAL NOTIFICATIONS ====

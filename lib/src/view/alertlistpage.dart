@@ -1,7 +1,7 @@
 import 'package:alertaday/src/model/notification_model.dart';
+import 'package:alertaday/src/model/notification_new_model.dart'; // Import necessário
 import 'package:alertaday/src/service/notification_service.dart';
 import 'package:flutter/material.dart';
-
 
 class AlertListPage extends StatefulWidget {
   const AlertListPage({super.key});
@@ -11,6 +11,7 @@ class AlertListPage extends StatefulWidget {
 }
 
 class _AlertListPageState extends State<AlertListPage> {
+  // 1. O serviço
   final NotificationService _alertService = NotificationService();
   late Future<List<NotificationModel>> _futureAlerts;
 
@@ -20,7 +21,49 @@ class _AlertListPageState extends State<AlertListPage> {
     _futureAlerts = _alertService.getAlerts();
   }
 
+  // --- NOVO MÉTODO PARA CHAMAR O POST ---
+  Future<void> _fetchAlertsViaPost() async {
+    try {
+      // ⚠️ Assumindo que você ajustou o NotificationService para ter o método postAlerts
+      final List<NotificationNewModel> newAlerts = await _alertService.postAlerts(); 
+      
+      // Aqui você precisará decidir o que fazer com a lista
+      // Se a sua tela original só mostrava 'NotificationModel', 
+      // você pode precisar de uma lógica de conversão ou mudar o tipo de lista.
+      // Por enquanto, faremos o print para debugging:
+      print('Notificações recebidas via POST: ${newAlerts.length}');
+
+      // Se a intenção do botão POST é APENAS recarregar a lista exibida (que usa GET),
+      // você deve chamar a função GET novamente:
+      _refreshAlerts();
+
+      // Você pode mostrar um feedback visual
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Alertas recarregados via POST (chamada simulada).')),
+        );
+      }
+
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao tentar chamar POST: $e')),
+        );
+      }
+      print('Erro ao chamar POST: $e');
+    }
+  }
+
+  // Método auxiliar para recarregar a lista (usado no RefreshIndicator e no POST)
+  void _refreshAlerts() {
+    setState(() {
+      _futureAlerts = _alertService.getAlerts(); // Ainda usando o GET para recarregar a UI
+    });
+  }
+  // ----------------------------------------
+
   Color _severityColor(String severity) {
+    // ... (Método inalterado)
     switch (severity.toUpperCase()) {
       case 'CRITICA':
         return Colors.red;
@@ -36,10 +79,10 @@ class _AlertListPageState extends State<AlertListPage> {
   }
 
   String _formatDate(DateTime? dt) {
+    // ... (Método inalterado)
     if (dt == null) return '-';
-    // Simples: yyyy-MM-dd HH:mm
     final local = dt.toLocal().toString();
-    return local.split('.').first; // corta milissegundos
+    return local.split('.').first;
   }
 
   @override
@@ -69,9 +112,7 @@ class _AlertListPageState extends State<AlertListPage> {
 
           return RefreshIndicator(
             onRefresh: () async {
-              setState(() {
-                _futureAlerts = _alertService.getAlerts();
-              });
+              _refreshAlerts(); // Usando o novo método de recarga
             },
             child: ListView.builder(
               itemCount: alerts.length,
@@ -100,8 +141,11 @@ class _AlertListPageState extends State<AlertListPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 4),
+                        // ⚠️ Note: Se você mudou para NotificationNewModel,
+                        // o campo 'message' pode não existir. Se a lista 
+                        // ainda é NotificationModel, está OK.
                         Text(
-                          alert.message,
+                          alert.message, 
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -117,17 +161,19 @@ class _AlertListPageState extends State<AlertListPage> {
                           ),
                       ],
                     ),
-                    
-                        ),
-                      );
-                    },
                   ),
                 );
               },
             ),
           );
-        //},
-      //),
-    //);
+        },
+      ),
+      // --- NOVO WIDGET: FloatingActionButton ---
+      floatingActionButton: FloatingActionButton(
+        onPressed: _fetchAlertsViaPost, // Chama o método POST ao ser pressionado
+        child: const Icon(Icons.refresh),
+        tooltip: 'Recarregar Alertas (via POST)',
+      ),
+    );
   }
 }
