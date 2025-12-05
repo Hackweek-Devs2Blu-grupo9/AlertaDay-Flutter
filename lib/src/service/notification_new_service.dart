@@ -6,10 +6,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:http/http.dart' as http;
 
-class NotificationService {
-  NotificationService._();
-  static final NotificationService instance = NotificationService._();
-  factory NotificationService() => instance;
+class NotificationNewService {
+  NotificationNewService._();
+  static final NotificationNewService instance = NotificationNewService._();
+  factory NotificationNewService() => instance;
 
   final FlutterLocalNotificationsPlugin _local = FlutterLocalNotificationsPlugin();
 
@@ -18,19 +18,20 @@ class NotificationService {
 
   static const String baseUrl = 'http://10.0.2.2:8080';
 
-  // GET /alerts
-  Future<List<NotificationModel>> getAlerts() async {
-    final url = Uri.parse(baseUrl+'/api/alerts/all'); 
+  // POST /News (para buscar informações)
+Future<List<NotificationModel>> postAlerts() async {
+  final url = Uri.parse(baseUrl + '/api/alerts/news');
 
-    final response = await http.get(url);
+  // Troca http.get por http.post
+  final response = await http.post(url);
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonList = jsonDecode(response.body);
-      return jsonList.map((j) => NotificationModel.fromJson(j)).toList();
-    }
-
-    throw Exception("Erro ao buscar alerts: ${response.statusCode}");
+  if (response.statusCode == 200) {
+    final List<dynamic> jsonList = jsonDecode(response.body);
+    return jsonList.map((j) => NotificationModel.fromJson(j)).toList();
   }
+
+  throw Exception("Erro ao buscar alerts: ${response.statusCode}");
+}
 
   Future<void> init() async {
     // ==== LOCAL NOTIFICATIONS ====

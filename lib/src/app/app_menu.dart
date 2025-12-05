@@ -39,6 +39,7 @@ class AppMenu extends StatelessWidget {
               currentAccountPicture: CircleAvatar(child: Icon(Icons.notifications)),
             ),
             _buildListTile(context, Icons.home, 'Home', AppRoutes.home, replace: true),
+            _buildListTile(context, Icons.radar, 'alerta', AppRoutes.alertlistpage),
             _buildListTile(context, Icons.settings, 'Configurações', AppRoutes.settings),
             _buildListTile(context, Icons.event_available_sharp, 'Avaliação', AppRoutes.avaliacao),
             _buildListTile(context, Icons.info, 'Sobre', AppRoutes.about),
