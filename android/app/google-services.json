@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501517405694",
+    "project_id": "alertaday",
+    "storage_bucket": "alertaday.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501517405694:android:7b89fefe21a999080044af",
+        "android_client_info": {
+          "package_name": "com.example.alertaday"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj869-PhIh5GPNg0yD4LZnOpZ2Vfq0sMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
